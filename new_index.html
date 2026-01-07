@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Him Lam Future AI</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #C41E3A;
+            /* Him Lam Red-ish tone or Standard Red? changing to a school authoritative color, maybe keep purple/blue for AI but add school logo */
+            --primary-school: #B22222;
+            --secondary: #00BFA6;
+            --accent: #FFD700;
+            /* Gold for excellence */
+            --bg: #1a1a2e;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- BACKGROUND PARTICLES (Optional for premium feel) --- */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            /* More space */
+            z-index: 50;
+            /* Higher than everything */
+            background: rgba(0, 0, 0, 0.3);
+            /* Slight contrast */
+            padding: 15px 30px;
+            border-radius: 60px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-img {
+            height: 110px;
+            width: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+            transition: transform 0.3s;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.1);
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .school-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #FFD700;
+            /* Gold */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
+            white-space: nowrap;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ecf0f1;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        .music-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 30px;
+            font-weight: 600;
+        }
+
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* --- CONTROL PANEL (New Bottom Bar) --- */
+        .control-panel {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            z-index: 50;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .control-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-group label {
+            color: #FFD700;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px black;
+        }
+
+        .control-group input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.3rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .control-group input[type="text"]:focus {
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .record-btn {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: none;
+            background: linear-gradient(135deg, #eee, #ccc);
+            color: #333;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .record-btn:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .record-btn:active {
+            transform: scale(0.98);
+        }
+
+        .record-btn.recording {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            box-shadow: 0 0 20px #ff4757;
+            animation: pulse-red 1s infinite;
+        }
+
+        /* --- STAGE (Maximized Images) --- */
+        .stage {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding-bottom: 150px;
+            /* Space for control panel */
+        }
+
+        .carousel-card {
+            width: 600px;
+            /* HUGE */
+            height: 700px;
+            background: transparent;
+            /* Remove card bg for cleaner look on big images? Or keep glass? Keep glass but subtle */
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 600px;
+            /* Huge Image */
+            object-fit: contain;
+            /* Contain to see full student? Or Cover? User wants "to". Object-fit cover is usually better for filling space but might crop heads. */
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid #FFD700;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-card .name-tag {
+            background: rgba(0, 0, 0, 0.8);
+            color: #FFD700;
+            padding: 10px 30px;
+            border-radius: 50px;
+            margin-top: -30px;
+            /* Overlap bottom of image */
+            z-index: 10;
+            font-size: 2rem;
+            font-weight: 800;
+            border: 1px solid #FFD700;
+            box-shadow: 0 5px 15px black;
+        }
+
+        /* Hide old stuff */
+        .agent-core,
+        .command-bar,
+        .status-text {
+            display: none !important;
+        }
+
+
+        .upload-trigger {
+            position: absolute;
+            right: 40px;
+            top: 40px;
+            background: white;
+            color: #B22222;
+            padding: 15px 30px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+            z-index: 50;
+        }
+
+        .upload-trigger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #f1f2f6;
+        }
+
+        /* --- OVERLAY (Result) --- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 20, 0.98);
+            z-index: 100;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 3.5rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .overlay img,
+        .overlay video {
+            max-width: 85%;
+            max-height: 75vh;
+            border-radius: 20px;
+            box-shadow: 0 0 60px rgba(196, 30, 58, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .overlay .caption {
+            margin-top: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        #vidStatus {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            color: #7bed9f;
+            animation: pulse-text 2s infinite;
+        }
+
+        @keyframes pulse-text {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <img src="/static/logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+        <div>
+            <div class="school-name">HIM LAM INTERNATIONAL SCHOOL BAC NINH</div>
+            <div class="tagline">Kiến Tạo Tương Lai - Vươn Tầm Thế Giới</div>
+        </div>
+        <button class="music-btn" onclick="toggleMusic()"><i class="fas fa-music"></i> Bật Nhạc</button>
+    </div>
+
+    <!-- Upload (Trigger hidden file input) -->
+    <button class="upload-trigger" onclick="document.getElementById('fileInput').click()">
+        <i class="fas fa-upload"></i> Tải Ảnh Mới
+    </button>
+    <input type="file" id="fileInput" multiple accept="image/*" style="display:none" onclick="this.value=null"
+        onchange="handleFiles(this.files)">
+
+    <!-- Main Stage -->
+    <div class="stage" id="stage">
+        <!-- Default State -->
+        <div style="text-align:center; opacity:0.7">
+            <h1 style="font-size:3rem; margin-bottom:10px;">Chào mừng đến với Future AI</h1>
+            <p style="font-size:1.5rem">Tải ảnh học sinh lên để bắt đầu hành trình...</p>
+        </div>
+    </div>
+
+    <!-- Agent Core (Visualizer) -->
+    <div class="agent-core" id="micBtn" onclick="toggleAgentListening()">
+        <i class="fas fa-microphone"></i>
+    </div>
+
+    <div class="status-text" id="statusText">Agent đang chờ...</div>
+
+    <!-- Command Bar -->
+    <div class="command-bar">
+        <i class="fas fa-terminal" style="color:rgba(255,255,255,0.5)"></i>
+        <input type="text" id="cmdInput" placeholder="Hoặc gõ lệnh tại đây..." onkeypress="handleEnter(event)">
+        <button onclick="processTextCommand()"
+            style="background:none; border:none; color:var(--primary); cursor:pointer;"><i
+                class="fas fa-paper-plane"></i></button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgMusic" loop src="/static/soft-background-music-409193.mp3"></audio>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <span class="close-btn" onclick="closeOverlay()">&times;</span>
+        <img id="resImg" style="display:none">
+        <video id="resVideo" controls autoplay loop style="display:none"></video>
+        <div class="caption" id="resCaption"></div>
+        <div id="vidStatus" style="color:cyan; margin-top:10px;"></div>
+    </div>
+
+    <!-- CONTROL BAR (Bottom) -->
+    <div class="control-panel">
+        <!-- Student Selection -->
+        <div class="control-group">
+            <label>1. Chọn Học Sinh:</label>
+            <input type="text" id="studentSearch" list="studentList" placeholder="Gõ tên học sinh..."
+                oninput="searchStudent()">
+            <datalist id="studentList"></datalist>
+        </div>
+
+        <!-- Job Selection (Voice OR Text) -->
+        <div class="control-group">
+            <label>2. Nhập Ước Mơ:</label>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="jobInput" placeholder="Gõ nghề nghiệp (VD: Bác sĩ)..."
+                    style="flex:1; padding:15px; border-radius:15px; border:none; background:rgba(255,255,255,0.9); color:black; font-size:1.2rem; min-width: 0;"
+                    onkeypress="if(event.key==='Enter') triggerJobFromText()">
+
+                <button id="btnSend" onclick="triggerJobFromText()"
+                    style="width:60px; border-radius:15px; border:none; background:#FFD700; color:black; font-size:1.2rem; cursor:pointer; font-weight:bold;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+
+                <button id="btnRecord" class="record-btn" onclick="startOneShotRecording()"
+                    style="width:auto; padding:0 20px; white-space:nowrap; min-width:180px;">
+                    <i class="fas fa-microphone"></i> <span>Nhấn để nói...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUSPENSE LOADING OVERLAY -->
+    <div id="loadingOverlay"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, #1a0b2e 0%, #000000 100%); z-index:10000; flex-direction:column; justify-content:center; align-items:center;">
+        <div class="dream-portal">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <!-- Source Image in Center -->
+            <img id="loadingSourceImg" src=""
+                style="width:520px; height:520px; border-radius:50%; object-fit:cover; border:6px solid white; box-shadow: 0 0 60px #FFD700; z-index:10; animation: pulse-img 1.5s infinite alternate;">
+        </div>
+        <div class="loading-text" id="loadingText">Đang Kết Nối Tương Lai...</div>
+        <div class="loading-sub" id="loadingSub">Vui lòng chờ...</div>
+    </div>
+
+    <style>
+        .dream-portal {
+            position: relative;
+            width: 800px;
+            /* 4x size */
+            height: 800px;
+            /* 4x size */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #FFD700;
+            border-bottom-color: #00ffff;
+            animation: spin-portal 3s linear infinite;
+        }
+
+        .ring-1 {
+            width: 100%;
+            height: 100%;
+            border-width: 10px;
+            /* Thicker borders for bigger size */
+            animation-duration: 4s;
+        }
+
+        .ring-2 {
+            width: 70%;
+            height: 70%;
+            border-width: 4px;
+            border-top-color: #ff00ff;
+            border-bottom-color: #00ff00;
+            animation-duration: 2.5s;
+            animation-direction: reverse;
+        }
+
+        .ring-3 {
+            width: 40%;
+            height: 40%;
+            border-width: 3px;
+            border-top-color: white;
+            animation-duration: 1.5s;
+        }
+
+        .core-star {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 50px 20px white;
+            animation: pulse-star 1s infinite alternate;
+        }
+
+        @keyframes spin-portal {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse-star {
+            from {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            to {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        .loading-text {
+            font-size: 2.5rem;
+            color: #FFD700;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px #FFD700;
+            animation: fade-text 2s infinite alternate;
+        }
+
+        .loading-sub {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+        }
+
+        @keyframes fade-text {
+            from {
+                opacity: 0.6;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(-5px);
+            }
+        }
+    </style>
+
+    <!-- START OVERLAY -->
+    <!-- START OVERLAY -->
+    <div id="startOverlay" onclick="startSystem()"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background:rgba(0,0,0,0.85); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer;">
+        <i class="fas fa-power-off" style="font-size: 80px; color: #FFD700; animation: pulse-gold 2s infinite;"></i>
+    </div>
+
+    <script>
+        // --- DATA & STATE ---
+        let images = [];
+        let fileNames = [];
+        let currentIndex = 0;
+        let isRecording = false;
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioContext;
+
+        // --- INIT ---
+        async function startSystem() {
+            document.getElementById('startOverlay').style.display = 'none';
+            // Init Audio Context for VAD
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioContext = new AudioContext();
+            await audioContext.resume();
+        }
+
+        // --- FILE HANDLING ---
+        async function handleFiles(files) {
+            if (!files.length) return;
+            images = []; fileNames = [];
+            const list = document.getElementById('studentList');
+            list.innerHTML = '';
+
+            const promises = Array.from(files).map(file => {
+                return new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve({ name: file.name, data: e.target.result });
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            const results = await Promise.all(promises);
+            images = results.map(r => r.data);
+            fileNames = results.map(r => r.name);
+
+            // Populate Datalist
+            fileNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name.replace(/\.[^/.]+$/, ""); // Remove extension
+                list.appendChild(opt);
+            });
+
+            renderCarousel();
+        }
+
+        function renderCarousel() {
+            const stage = document.getElementById('stage');
+            stage.innerHTML = '';
+            if (!images.length) return;
+
+            const card = document.createElement('div');
+            card.className = 'carousel-card';
+            card.innerHTML = `<img src="${images[currentIndex]}"><div class="name-tag">${fileNames[currentIndex]}</div>`;
+            stage.appendChild(card);
+        }
+
+        // --- MANUAL SEARCH ---
+        function searchStudent() {
+            const input = document.getElementById('studentSearch').value.toLowerCase();
+            const idx = fileNames.findIndex(name => name.toLowerCase().includes(input));
+            if (idx !== -1) {
+                currentIndex = idx;
+                renderCarousel();
+            }
+        }
+
+        // --- ONE-SHOT RECORDING LOGIC ---
+        async function startOneShotRecording() {
+            if (isRecording) return;
+
+            const btn = document.getElementById('btnRecord');
+            btn.classList.add('recording');
+            btn.innerHTML = '<i class="fas fa-circle fa-beat"></i> <span>Đang nghe... (Im lặng để gửi)</span>';
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+                mediaRecorder.onstop = () => {
+                    stream.getTracks().forEach(t => t.stop());
+                    btn.classList.remove('recording');
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Đang xử lý...</span>';
+                    processOneShot(new Blob(audioChunks, { type: 'audio/wav' }));
+                    isRecording = false;
+                };
+
+                mediaRecorder.start();
+                isRecording = true;
+
+                // Start VAD to auto-stop
+                startVAD(stream);
+
+            } catch (e) {
+                alert("Lỗi Mic: " + e.message);
+                resetBtn();
+            }
+        }
+
+        function resetBtn() {
+            const btn = document.getElementById('btnRecord');
+            btn.classList.remove('recording');
+            btn.innerHTML = '<i class="fas fa-microphone"></i> <span>Nhấn để nói ước mơ...</span>';
+            isRecording = false;
+        }
+
+        function startVAD(stream) {
+            const ctx = new AudioContext();
+            const source = ctx.createMediaStreamSource(stream);
+            const analyser = ctx.createAnalyser();
+            const processor = ctx.createScriptProcessor(2048, 1, 1);
+            source.connect(analyser);
+            analyser.connect(processor);
+            processor.connect(ctx.destination);
+
+            let silenceStart = Date.now();
+            // 1.5s silence to trigger
+            const SILENCE_THRESHOLD = 1500;
+
+            processor.onaudioprocess = () => {
+                if (!isRecording) { ctx.close(); return; }
+                const data = new Uint8Array(analyser.frequencyBinCount);
+                analyser.getByteFrequencyData(data);
+                const vol = data.reduce((a, b) => a + b) / data.length;
+
+                if (vol < 15) {
+                    if (Date.now() - silenceStart > SILENCE_THRESHOLD) {
+                        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+                        ctx.close();
+                    }
+                } else { silenceStart = Date.now(); }
+            };
+        }
+
+        async function processOneShot(blob) {
+            if (blob.size < 1000) { resetBtn(); return; }
+
+            const fd = new FormData();
+            fd.append("audio", blob);
+
+            try {
+                // 1. Get Text
+                const res = await fetch('/listen', { method: 'POST', body: fd });
+                const json = await res.json();
+
+                if (json.text) {
+                    const jobText = json.text;
+                    // 2. Generate Immediately
+                    await triggerGeneration(jobText);
+                } else {
+                    resetBtn();
+                }
+            } catch (e) {
+                console.error(e);
+                resetBtn();
+            }
+        }
+
+        async function triggerJobFromText() {
+            const input = document.getElementById('jobInput');
+            const job = input.value.trim();
+            if (!job) return;
+
+            // Bypass STT, go straight to generation
+            await triggerGeneration(job);
+            input.value = ''; // Clear after sending
+        }
+
+        async function triggerGeneration(job) {
+            const btn = document.getElementById('btnRecord');
+            btn.innerHTML = `<i class="fas fa-magic fa-spin"></i> <span>Đang biến hình: ${job}</span>`;
+
+            let sName = fileNames[currentIndex].replace(/\.[^/.]+$/, "");
+
+            // Show Loading with Source Image
+            const loadImg = document.getElementById('loadingSourceImg');
+            if (images[currentIndex]) loadImg.src = images[currentIndex];
+
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.getElementById('loadingText').innerText = `Đang Biến Hình: ${job}`;
+            document.getElementById('loadingSub').innerText = "Vui lòng chờ...";
+
+            try {
+                const res = await fetch('/generate', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        image: images[currentIndex],
+                        job_description: job,
+                        student_name: sName
+                    })
+                });
+                const data = await res.json();
+
+                // Hide Loading
+                document.getElementById('loadingOverlay').style.display = 'none';
+
+                // Show Result
+                const img = document.getElementById('resImg');
+                const vid = document.getElementById('resVideo');
+                const overlay = document.getElementById('overlay');
+
+                overlay.style.display = 'flex';
+                img.style.display = 'block';
+                img.src = "data:image/png;base64," + data.generated_image;
+                document.getElementById('resCaption').textContent = data.caption;
+
+                resetBtn();
+
+                // Trigger Video (Silent if fails)
+                try {
+                    triggerAnimation(data.generated_image, `Cinematic slow motion of a ${job}`);
+                } catch (e) { }
+
+                document.getElementById('resCaption').textContent = `Đang tạo chuyển động cho ${sName}...`;
+
+                // Animate
+                const vidRes = await fetch('/animate', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        image: "data:image/png;base64," + data.generated_image,
+                        prompt: "Cinematic movement, high quality"
+                    })
+                });
+                const vidData = await vidRes.json();
+                if (vidData.video) {
+                    img.style.display = 'none';
+                    vid.src = "data:video/mp4;base64," + vidData.video;
+                    vid.style.display = 'block';
+                    vid.play();
+                    document.getElementById('resCaption').textContent = `Hoàn thành: ${sName} - ${job}`;
+                }
+            } catch (e) { alert(e); }
+            finally {
+                resetBtn();
+            }
+        }
+
+        function closeOverlay() { document.getElementById('overlay').style.display = 'none'; }
+        function toggleMusic() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) { audio.play(); } else { audio.pause(); }
+        }
+    </script>
+</body>
+
+</html>
+```

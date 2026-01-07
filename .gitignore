@@ -1,0 +1,6 @@
+__pycache__/
+venv/
+.env
+results/
+server.log
+*.pyc

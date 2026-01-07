@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  dreamsketch:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      # Pass the API_KEY from the host environment or .env file
+      - API_KEY=${API_KEY}
+    volumes:
+      # Persist results folder if needed
+      - ./results:/app/results
+    restart: unless-stopped
