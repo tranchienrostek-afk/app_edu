@@ -39,7 +39,7 @@
             align-items: center;
         }
 
-        /* --- BACKGROUND PARTICLES (Optional for premium feel) --- */
+        /* --- BACKGROUND PARTICLES --- */
         .stars {
             position: fixed;
             top: 0;
@@ -52,58 +52,51 @@
 
         /* --- HEADER --- */
         .header {
-            position: absolute;
-            top: 25px;
-            left: 30px;
+            width: calc(100% - 40px);
+            margin: 20px 20px 0 20px;
             display: flex;
             align-items: center;
-            gap: 25px;
-            /* More space */
+            justify-content: space-between;
+            gap: 15px;
             z-index: 50;
-            /* Higher than everything */
             background: rgba(0, 0, 0, 0.3);
-            /* Slight contrast */
-            padding: 15px 30px;
+            padding: 10px 20px;
             border-radius: 60px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .logo-img {
-            height: 80px;
+            height: 60px;
             width: auto;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
             transition: transform 0.3s;
         }
 
-        .logo-img:hover {
-            transform: scale(1.1);
-        }
-
-        .brand-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
         .school-name {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 900;
             color: #FFD700;
-            /* Gold */
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             line-height: 1.1;
             text-shadow: 0 3px 6px rgba(0, 0, 0, 0.9);
-            white-space: nowrap;
+            white-space: normal;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: #ecf0f1;
-            margin-top: 5px;
-            letter-spacing: 1px;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
         }
 
@@ -111,139 +104,44 @@
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 30px;
             cursor: pointer;
             transition: 0.3s;
-            margin-left: 30px;
             font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
-        .music-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        /* --- CONTROL PANEL (New Bottom Bar) --- */
-        .control-panel {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1000px;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 30px;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 40px;
-            z-index: 50;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-        }
-
-        .control-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .control-group label {
-            color: #FFD700;
-            font-size: 1.4rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 4px black;
-        }
-
-        .control-group input[type="text"] {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 1.3rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .control-group input[type="text"]:focus {
-            border-color: #FFD700;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-
-        .record-btn {
-            width: 100%;
-            padding: 15px 20px;
-            border-radius: 15px;
-            border: none;
-            background: linear-gradient(135deg, #eee, #ccc);
-            color: #333;
-            font-size: 1.3rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .record-btn:hover {
-            transform: scale(1.02);
-            filter: brightness(1.1);
-        }
-
-        .record-btn:active {
-            transform: scale(0.98);
-        }
-
-        .record-btn.recording {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            box-shadow: 0 0 20px #ff4757;
-            animation: pulse-red 1s infinite;
-        }
-
-        /* --- STAGE (Maximized Images) --- */
+        /* --- STAGE --- */
         .stage {
             flex: 1;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            padding-bottom: 150px;
-            /* Space for control panel */
+            padding: 20px;
+            overflow: hidden;
         }
 
         .carousel-card {
-            width: 400px;
-            /* Resized for standard view */
-            height: 500px;
+            width: 90%;
+            max-width: 450px;
+            height: 70vh;
+            max-height: 600px;
             background: transparent;
-            /* Remove card bg for cleaner look on big images? Or keep glass? Keep glass but subtle */
             border-radius: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: absolute;
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .carousel-card img {
             width: 100%;
-            height: 400px;
-            /* Resized Image */
-            object-fit: contain;
-            /* Contain to see full student? Or Cover? User wants "to". Object-fit cover is usually better for filling space but might crop heads. */
+            height: 100%;
             object-fit: cover;
             border-radius: 20px;
             border: 4px solid #FFD700;
@@ -251,51 +149,227 @@
         }
 
         .carousel-card .name-tag {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             color: #FFD700;
-            padding: 10px 30px;
+            padding: 8px 25px;
             border-radius: 50px;
-            margin-top: -30px;
-            /* Overlap bottom of image */
+            margin-top: -25px;
             z-index: 10;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             border: 1px solid #FFD700;
-            box-shadow: 0 5px 15px black;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Hide old stuff */
-        .agent-core,
-        .command-bar,
-        .status-text {
-            display: none !important;
+        /* --- STAGE DEFAULT TEXT --- */
+        .default-stage-text h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
 
+        .default-stage-text p {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .default-stage-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .default-stage-text p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* --- CONTROL PANEL --- */
+        .control-panel {
+            width: 95%;
+            max-width: 1100px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 30px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            z-index: 50;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            color: #FFD700;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .control-group input[type="text"] {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .control-group input[type="text"]:focus {
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .record-btn {
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #eee, #ccc);
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
 
         .upload-trigger {
-            position: absolute;
-            right: 40px;
-            top: 40px;
+            position: fixed;
+            right: 20px;
+            top: 100px;
             background: white;
             color: #B22222;
-            padding: 15px 30px;
+            padding: 12px 25px;
             border-radius: 40px;
             border: none;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
             transition: 0.3s;
-            z-index: 50;
+            z-index: 40;
         }
 
-        .upload-trigger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            background: #f1f2f6;
+        /* --- MOBILE OVERRIDES --- */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .header {
+                border-radius: 20px;
+                margin-top: 10px;
+            }
+
+            .school-name {
+                font-size: 1rem;
+            }
+
+            .tagline {
+                display: none;
+            }
+
+            .music-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+
+            .stage {
+                height: 60vh;
+                min-height: 400px;
+                padding-bottom: 0;
+            }
+
+            .carousel-card {
+                height: 450px;
+            }
+
+            .carousel-card .name-tag {
+                font-size: 1.2rem;
+            }
+
+            .control-panel {
+                flex-direction: column;
+                width: 90%;
+                margin: 20px auto;
+                padding: 20px;
+                gap: 15px;
+                border-radius: 20px;
+                position: static;
+                transform: none;
+            }
+
+            .control-group {
+                width: 100%;
+            }
+
+            .control-group label {
+                font-size: 0.9rem;
+            }
+
+            #jobInputGroup {
+                flex-direction: column !important;
+            }
+
+            #jobInputGroup input {
+                width: 100% !important;
+                order: 1;
+            }
+
+            #jobInputGroup .btn-row {
+                width: 100%;
+                display: flex;
+                gap: 10px;
+                order: 2;
+            }
+
+            #btnSend {
+                flex: 1;
+                height: 50px !important;
+            }
+
+            #btnRecord {
+                flex: 2;
+                height: 50px !important;
+                border-radius: 12px !important;
+            }
+
+            #btnRecord span {
+                display: inline !important;
+            }
+
+            .upload-trigger {
+                top: 20px;
+                right: 20px;
+                padding: 10px 15px;
+                font-size: 0.75rem;
+                z-index: 1000;
+                background: rgba(255, 255, 255, 0.9);
+            }
         }
 
-        /* --- OVERLAY (Result) --- */
+        /* --- OVERLAY --- */
         .overlay {
             position: fixed;
             top: 0;
@@ -303,45 +377,39 @@
             width: 100%;
             height: 100%;
             background: rgba(10, 10, 20, 0.98);
-            z-index: 100;
+            z-index: 10000;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            font-size: 3.5rem;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .close-btn:hover {
-            color: var(--accent);
-            transform: rotate(90deg);
+            padding: 20px;
         }
 
         .overlay img,
         .overlay video {
-            max-width: 85%;
-            max-height: 75vh;
-            border-radius: 20px;
-            box-shadow: 0 0 60px rgba(196, 30, 58, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(196, 30, 58, 0.4);
         }
 
         .overlay .caption {
-            margin-top: 30px;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent);
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #FFD700;
             text-align: center;
-            letter-spacing: 1px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            width: 90%;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            z-index: 10001;
         }
 
         #vidStatus {
@@ -387,9 +455,9 @@
     <!-- Main Stage -->
     <div class="stage" id="stage">
         <!-- Default State -->
-        <div style="text-align:center; opacity:0.7">
-            <h1 style="font-size:3rem; margin-bottom:10px;">Chào mừng đến với Future AI</h1>
-            <p style="font-size:1.5rem">Tải ảnh học sinh lên để bắt đầu hành trình...</p>
+        <div class="default-stage-text" style="text-align:center; opacity:0.7">
+            <h1>Chào mừng đến với Future AI</h1>
+            <p>Tải ảnh học sinh lên để bắt đầu hành trình...</p>
         </div>
     </div>
 
@@ -434,20 +502,22 @@
         <!-- Job Selection (Voice OR Text) -->
         <div class="control-group">
             <label>2. Nhập Ước Mơ:</label>
-            <div style="display:flex; gap:10px;">
+            <div id="jobInputGroup" style="display:flex; gap:10px; align-items:center;">
                 <input type="text" id="jobInput" placeholder="Gõ nghề nghiệp (VD: Bác sĩ)..."
                     style="flex:1; padding:15px; border-radius:15px; border:none; background:rgba(255,255,255,0.9); color:black; font-size:1.2rem; min-width: 0;"
                     onkeypress="if(event.key==='Enter') triggerJobFromText()">
 
-                <button id="btnSend" onclick="triggerJobFromText()"
-                    style="width:60px; border-radius:15px; border:none; background:#FFD700; color:black; font-size:1.2rem; cursor:pointer; font-weight:bold;">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                <div class="btn-row" style="display:contents;">
+                    <button id="btnSend" onclick="triggerJobFromText()"
+                        style="width:60px; height:55px; border-radius:15px; border:none; background:#FFD700; color:black; font-size:1.2rem; cursor:pointer; font-weight:bold;">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
 
-                <button id="btnRecord" class="record-btn" onclick="startOneShotRecording()"
-                    style="width:auto; padding:0 20px; white-space:nowrap; min-width:180px;">
-                    <i class="fas fa-microphone"></i> <span>Nhấn để nói...</span>
-                </button>
+                    <button id="btnRecord" class="record-btn" onclick="startOneShotRecording()"
+                        style="width:auto; height:55px; padding:0 20px; white-space:nowrap; min-width:180px;">
+                        <i class="fas fa-microphone"></i> <span>Nhấn để nói...</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
