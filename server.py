@@ -40,6 +40,12 @@ except Exception as e:
     logging.error(f"Failed to initialize Gemini Client: {e}")
 
 
+# --- Ensure results directory exists ---
+results_dir = "results"
+if not os.path.exists(results_dir):
+    os.makedirs(results_dir)
+    logging.info(f"Created directory: {results_dir}")
+
 # --- Gender Detection from Vietnamese Name ---
 def detect_gender_from_name(name):
     """
@@ -187,7 +193,17 @@ def animate():
         if not image_data: return jsonify({"error": "No image"}), 400
         
         if "," in image_data: image_data = image_data.split(",")[1]
-        image_bytes = base64.b64decode(image_data)
+        
+        # Validate base64 length and content
+        if not image_data or image_data == "undefined":
+            logging.error("Invalid image data: data is empty or 'undefined'")
+            return jsonify({"error": "Invalid image data"}), 400
+            
+        try:
+            image_bytes = base64.b64decode(image_data)
+        except Exception as b64_err:
+            logging.error(f"Base64 Decode Error: {b64_err}")
+            return jsonify({"error": "Invalid image encoding"}), 400
         pil_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         
         logging.info(f"Starting video generation with Veo 3.1 for prompt: {prompt}")
@@ -325,7 +341,17 @@ def generate():
         if "," in image_data:
             image_data = image_data.split(",")[1]
             
-        image_bytes = base64.b64decode(image_data)
+        # Validate base64 length and content
+        if not image_data or image_data == "undefined":
+            logging.error("Invalid image data: data is empty or 'undefined'")
+            return jsonify({"error": "Invalid image data"}), 400
+            
+        try:
+            image_bytes = base64.b64decode(image_data)
+        except Exception as b64_err:
+            logging.error(f"Base64 Decode Error: {b64_err}")
+            return jsonify({"error": "Invalid image encoding"}), 400
+            
         raw_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         
         # --- DEBUG: SAVE INPUT IMAGE ---
@@ -428,9 +454,7 @@ def generate():
              # Continue without caption if fails
 
         # Auto-Save Logic
-        output_dir = "results"
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+        output_dir = results_dir
         
         # Sanitize filename
         safe_name = "".join([c for c in student_name if c.isalpha() or c.isdigit() or c==' ']).strip().replace(" ", "_")

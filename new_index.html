@@ -781,6 +781,10 @@
                 });
                 const data = await res.json();
 
+                if (!res.ok || data.error) {
+                    throw new Error(data.error || "Lỗi tạo ảnh. Vui lòng thử lại.");
+                }
+
                 // Hide Loading
                 document.getElementById('loadingOverlay').style.display = 'none';
 
@@ -796,11 +800,7 @@
 
                 resetBtn();
 
-                // Trigger Video (Silent if fails)
-                try {
-                    triggerAnimation(data.generated_image, `Cinematic slow motion of a ${job}`);
-                } catch (e) { }
-
+                // Trigger Animation
                 document.getElementById('resCaption').textContent = `Đang tạo chuyển động cho ${sName}...`;
 
                 // Animate
@@ -812,14 +812,20 @@
                     })
                 });
                 const vidData = await vidRes.json();
+
                 if (vidData.video) {
                     img.style.display = 'none';
                     vid.src = "data:video/mp4;base64," + vidData.video;
                     vid.style.display = 'block';
                     vid.play();
                     document.getElementById('resCaption').textContent = `Hoàn thành: ${sName} - ${job}`;
+                } else if (vidData.error) {
+                    document.getElementById('resCaption').textContent = `Ảnh đã sẵn sàng. ${vidData.error}`;
                 }
-            } catch (e) { alert(e); }
+            } catch (e) {
+                alert(e.message || e);
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
             finally {
                 resetBtn();
             }
