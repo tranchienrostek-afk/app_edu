@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\APP_Edu\DreamSketch---Turning-Dreams-to-Reality-main\Image to video generation.py", line 10, in <module>
+    client = genai.Client()
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\genai\client.py", line 396, in __init__
+    self._api_client = self._get_api_client(
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\genai\client.py", line 444, in _get_api_client
+    return BaseApiClient(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python311\Lib\site-packages\google\genai\_api_client.py", line 683, in __init__
+    raise ValueError(
+ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.

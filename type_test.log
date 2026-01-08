@@ -1,0 +1,6 @@
+Success: types.Image(image_bytes=...)
+Failed (data, mime_type): 1 validation error for Image
+data
+  Extra inputs are not permitted [type=extra_forbidden, input_value=b'\x89PNG\r\n\x1a\n\x00\x...0\x00\x00IEND\xaeB`\x82', input_type=bytes]
+    For further information visit https://errors.pydantic.dev/2.12/v/extra_forbidden
+Signature: (*, gcsUri: Optional[str] = None, imageBytes: Optional[bytes] = None, mimeType: Optional[str] = None) -> None

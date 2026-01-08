@@ -40,6 +40,62 @@ except Exception as e:
     logging.error(f"Failed to initialize Gemini Client: {e}")
 
 
+# --- Gender Detection from Vietnamese Name ---
+def detect_gender_from_name(name):
+    """
+    Detect gender from Vietnamese name.
+    Returns 'female', 'male', or 'person' (if ambiguous).
+    """
+    if not name:
+        return "person"
+    
+    # Common Vietnamese female name endings/components
+    female_names = {
+        'huyền', 'thảo', 'trang', 'linh', 'hằng', 'hạnh', 'ngọc', 'yến', 'mai', 
+        'lan', 'hương', 'phương', 'thủy', 'vân', 'vy', 'mỹ', 'như', 'nhung', 
+        'trâm', 'trinh', 'quỳnh', 'diễm', 'dao', 'chi', 'giang', 'thu', 'xuân',
+        'oanh', 'hiền', 'nga', 'hoa', 'ly', 'lý', 'loan', 'tuyết', 'cúc', 'dung',
+        'hà', 'hồng', 'thanh', 'thuỳ', 'thùy', 'nhi', 'ni', 'uyên', 'diệu', 'nguyệt',
+        'an', 'anh', 'bích', 'châu', 'duyên', 'hậu', 'hoài', 'huệ', 'khánh', 'kiều',
+        'lam', 'lệ', 'liên', 'lương', 'minh', 'ngân', 'nhã', 'nương', 'phúc', 'quyên',
+        'sen', 'tâm', 'thương', 'tiên', 'trà', 'trúc', 'tuyền', 'uyển', 'vi', 'yên'
+    }
+    
+    # Common Vietnamese male name endings/components
+    male_names = {
+        'hùng', 'dũng', 'cường', 'tuấn', 'hải', 'đức', 'trung', 'quân', 'khang',
+        'bảo', 'hoàng', 'long', 'nam', 'phong', 'quốc', 'sơn', 'tâm', 'thắng',
+        'thịnh', 'toàn', 'trọng', 'văn', 'vinh', 'việt', 'vũ', 'khanh', 'kiên',
+        'lâm', 'luân', 'mạnh', 'nghĩa', 'nhân', 'phú', 'tài', 'thái', 'thiện',
+        'thuận', 'tiến', 'triệu', 'tú', 'tùng', 'tuấn', 'tường', 'vương', 'hiếu',
+        'khôi', 'nhật', 'phát', 'quý', 'duy', 'đạt', 'huy', 'khoa', 'minh'
+    }
+    
+    # Normalize and get last word of name (Vietnamese naming convention)
+    name_lower = name.lower().strip()
+    name_parts = name_lower.split()
+    
+    if not name_parts:
+        return "person"
+    
+    # Check last name component first (most indicative in Vietnamese)
+    last_name = name_parts[-1]
+    
+    if last_name in female_names:
+        return "female"
+    elif last_name in male_names:
+        return "male"
+    
+    # Check all parts of the name for hints
+    for part in name_parts:
+        if part in female_names:
+            return "female"
+        elif part in male_names:
+            return "male"
+    
+    return "person"  # Ambiguous
+
+
 # --- NEW: TTS Endpoint ---
 @app.route('/speak', methods=['POST'])
 def speak():
@@ -146,37 +202,50 @@ def animate():
         # Let's try to map it to the known working pattern for this SDK version.
         # If generate_videos exists, we use it but with clearer types.
         
-        response = client.models.generate_content(
-            model="veo-3.1-generate-preview",
-            contents=[
-                types.Content(
-                    parts=[
-                        types.Part(text=prompt),
-                        types.Part(inline_data=types.Blob(
-                           mime_type="image/png",
-                           data=img_bytes
-                        ))
-                    ]
-                )
-            ]
-        )
-            
-        # Veo usually returns a video URI or bytes in the response
-        # generate_content for video generation models might behave differently (async operation)
-        # But for 'preview' it might be sync or return a link?
-        # Actually Veo 2/3 via API is often async regular logic.
-        # Let's assume the previous code failed because `image=pil_image` wasn't auto-converted.
-        
-        # If generate_content returns the video directly:
-        video_bytes = None
-        for part in response.candidates[0].content.parts:
-            if part.inline_data:
-                video_bytes = part.inline_data.data
-                break
-            if part.file_data:
-                # Handle file uri if needed, but for now expect inline
-                pass
+        # Convert bytes to types.Image for Veo
+        img_input = types.Image(image_bytes=img_bytes)
 
+        operation = client.models.generate_videos(
+            model="veo-3.1-generate-preview",
+            prompt=prompt,
+            image=img_input,
+        )
+        
+        # Poll for completion (Blocking)
+        import time
+        while not operation.done:
+             logging.info("Waiting for video generation...")
+             time.sleep(5)
+             operation = client.operations.get(operation)
+            
+        # Get video content
+        video_bytes = None
+        
+        # Check if operation has result
+        if operation.result:
+             # The result usually contains the generated video artifact
+             # Warning: The result format depends on the SDK version.
+             # Based on user script: 
+             # video = operation.response.generated_videos[0]
+             # client.files.download(file=video.video)
+             # This implies the video is a File resource.
+             
+             try:
+                 generated_video = operation.response.generated_videos[0]
+                 # We need the actual bytes. user script downloads to file.
+                 # We can download to memory or temp file.
+                 video_file_name = f"temp_video_{int(time.time())}.mp4"
+                 client.files.download(file=generated_video.video, config={'download_dest': video_file_name})
+                 
+                 # Read back
+                 with open(video_file_name, "rb") as vf:
+                     video_bytes = vf.read()
+                 os.remove(video_file_name) # Cleanup
+                 
+             except Exception as download_err:
+                 logging.error(f"Download failed: {download_err}")
+                 # Fallback: check if inline data exists? Unlikely for Veo.
+        
         if not video_bytes:
              return jsonify({"error": "No video content returned"}), 500
         
@@ -218,7 +287,7 @@ def voice_command():
         )
 
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.0-flash-exp",
             contents=prompt,
             config=types.GenerateContentConfig(response_mime_type="application/json")
         )
@@ -246,6 +315,8 @@ def generate():
         image_data = data.get("image")
         job_description = data.get("job_description", "professional")
         student_name = data.get("student_name", "student")
+        
+        logging.info(f"Generate Request for: {student_name}") # Debug Log
 
         if not image_data:
             return jsonify({"error": "No image data provided"}), 400
@@ -257,13 +328,24 @@ def generate():
         image_bytes = base64.b64decode(image_data)
         raw_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         
-        # Create prompt for Google GenAI
+        # --- DEBUG: SAVE INPUT IMAGE ---
+        # Save the exact image the server received to verify it is not the old one
+        debug_path = os.path.join("results", "debug_input_last.png")
+        raw_image.save(debug_path)
+        logging.info(f"Saved debug input image to: {debug_path}")
+        # -------------------------------
+        
+        # --- Gender Detection ---
+        gender = detect_gender_from_name(student_name)
+        logging.info(f"Detected gender for '{student_name}': {gender}")
+        
+        # Create prompt for Google GenAI with gender
         prompt = (
-            f"Generate a photorealistic image of this person as a {job_description}, "
-            f"wearing professional {job_description} attire. "
+            f"Generate a photorealistic image of this {gender} person as a {gender} {job_description}, "
+            f"wearing professional {job_description} attire appropriate for a {gender}. "
             f"The setting should be polite, aspirational, and school-appropriate. "
             f"High quality, 8k resolution, cinematic lighting. "
-            f"Maintain the person's likeness where possible but transform them into an adult professional."
+            f"Maintain the person's likeness where possible but transform them into an adult {gender} professional."
         )
 
         response = client.models.generate_content(

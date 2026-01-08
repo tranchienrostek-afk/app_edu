@@ -608,6 +608,7 @@
             images = []; fileNames = [];
             const list = document.getElementById('studentList');
             list.innerHTML = '';
+            currentIndex = 0; // Fix: Reset index when new files are loaded
 
             const promises = Array.from(files).map(file => {
                 return new Promise(resolve => {
