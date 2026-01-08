@@ -91,7 +91,7 @@ def listen():
         prompt = "Transcribe this audio exactly in Vietnamese."
         
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model="gemini-2.0-flash-exp",
             contents=[
                 types.Content(
                     parts=[
@@ -294,7 +294,7 @@ def generate():
              caption_text = f"{student_name} - {job_description.title()}"
              
              # Font Loading & Auto-Scaling
-             font_size = int(h * 0.05) # Start at 5% height
+             font_size = int(h * 0.15) # Start at 15% height (User requested BIGGER)
              max_width = w * 0.9 # Max 90% of image width
              
              try:
@@ -303,12 +303,12 @@ def generate():
                  font = ImageFont.load_default()
 
              # Reduce font size until it fits
-             while font_size > 10:
+             while font_size > 20:
                  bbox = draw.textbbox((0, 0), caption_text, font=font)
                  text_w = bbox[2] - bbox[0]
                  if text_w <= max_width:
                      break
-                 font_size -= 2
+                 font_size -= 5
                  try:
                      font = ImageFont.truetype("arial.ttf", font_size)
                  except:

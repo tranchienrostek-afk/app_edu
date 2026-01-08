@@ -70,7 +70,7 @@
         }
 
         .logo-img {
-            height: 110px;
+            height: 80px;
             width: auto;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
             transition: transform 0.3s;
@@ -87,7 +87,7 @@
         }
 
         .school-name {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: #FFD700;
             /* Gold */
@@ -225,9 +225,9 @@
         }
 
         .carousel-card {
-            width: 600px;
-            /* HUGE */
-            height: 700px;
+            width: 400px;
+            /* Resized for standard view */
+            height: 500px;
             background: transparent;
             /* Remove card bg for cleaner look on big images? Or keep glass? Keep glass but subtle */
             border-radius: 30px;
@@ -240,8 +240,8 @@
 
         .carousel-card img {
             width: 100%;
-            height: 600px;
-            /* Huge Image */
+            height: 400px;
+            /* Resized Image */
             object-fit: contain;
             /* Contain to see full student? Or Cover? User wants "to". Object-fit cover is usually better for filling space but might crop heads. */
             object-fit: cover;
@@ -461,7 +461,7 @@
             <div class="ring ring-3"></div>
             <!-- Source Image in Center -->
             <img id="loadingSourceImg" src=""
-                style="width:520px; height:520px; border-radius:50%; object-fit:cover; border:6px solid white; box-shadow: 0 0 60px #FFD700; z-index:10; animation: pulse-img 1.5s infinite alternate;">
+                style="width:340px; height:340px; border-radius:50%; object-fit:cover; border:6px solid white; box-shadow: 0 0 60px #FFD700; z-index:10; animation: pulse-img 1.5s infinite alternate;">
         </div>
         <div class="loading-text" id="loadingText">Đang Kết Nối Tương Lai...</div>
         <div class="loading-sub" id="loadingSub">Vui lòng chờ...</div>
@@ -470,10 +470,10 @@
     <style>
         .dream-portal {
             position: relative;
-            width: 800px;
-            /* 4x size */
-            height: 800px;
-            /* 4x size */
+            width: 500px;
+            /* Resized */
+            height: 500px;
+            /* Resized */
             display: flex;
             justify-content: center;
             align-items: center;
